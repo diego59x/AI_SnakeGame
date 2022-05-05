@@ -29,7 +29,18 @@ def SnakeGame():
  
     snake_List = []
     SizeSnake = 1
- 
+
+    win = pygame.display.set_mode((width, height))
+    screen = pygame.Surface((width, height))
+    
+    matrix = []
+
+    for i in range(int(width/10)):
+        matrix.append([])
+        for j in range(int(height/10)):
+            matrix[i].append(0)
+
+    print(matrix)
     foodPositionX = round(random.randrange(0, width - snakeTail) / 10.0) * 10.0
     foodPositionY = round(random.randrange(0, height - snakeTail) / 10.0) * 10.0
  
