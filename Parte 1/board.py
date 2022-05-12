@@ -11,7 +11,7 @@ pygame.display.set_caption('Proyecto Inteligencia Artificial')
  
 time = pygame.time.Clock()
 
-fontText = pygame.font.SysFont("bahnschrift", 16)
+fontText = pygame.font.SysFont("bahnschrift", 20)
 fontNumber = pygame.font.SysFont("comicsansms", 25) 
  
 snakeTail = 10
@@ -29,18 +29,7 @@ def SnakeGame():
  
     snake_List = []
     SizeSnake = 1
-
-    win = pygame.display.set_mode((width, height))
-    screen = pygame.Surface((width, height))
-    
-    matrix = []
-
-    for i in range(int(width/10)):
-        matrix.append([])
-        for j in range(int(height/10)):
-            matrix[i].append(0)
-
-    print(matrix)
+ 
     foodPositionX = round(random.randrange(0, width - snakeTail) / 10.0) * 10.0
     foodPositionY = round(random.randrange(0, height - snakeTail) / 10.0) * 10.0
  
@@ -65,17 +54,21 @@ def SnakeGame():
                 game_over = True
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    x1Direction = -snakeTail
-                    y1Direction = 0
+                    if x1Direction != snakeTail:
+                        x1Direction = -snakeTail
+                        y1Direction = 0
                 elif event.key == pygame.K_RIGHT:
-                    x1Direction = snakeTail
-                    y1Direction = 0
+                    if x1Direction != -snakeTail:
+                        x1Direction = snakeTail
+                        y1Direction = 0
                 elif event.key == pygame.K_UP:
-                    y1Direction = -snakeTail
-                    x1Direction = 0
+                    if y1Direction != snakeTail:
+                        y1Direction = -snakeTail
+                        x1Direction = 0
                 elif event.key == pygame.K_DOWN:
-                    y1Direction = snakeTail
-                    x1Direction = 0
+                    if y1Direction != -snakeTail:
+                        y1Direction = snakeTail
+                        x1Direction = 0
  
         if x1 >= width or x1 < 0 or y1 >= height or y1 < 0:
             exitGame = True
@@ -108,6 +101,5 @@ def SnakeGame():
  
     pygame.quit()
     quit()
- 
- 
+
 SnakeGame()

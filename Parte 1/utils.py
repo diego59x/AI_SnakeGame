@@ -11,7 +11,7 @@ def our_snake(snake_block, snake_list):
  
 def message(msg, color, font_style):
     mesg = font_style.render(msg, True, color)
-    dis.blit(mesg, [width / 16, height / 3])
+    dis.blit(mesg, [width / 10, height / 3])
 
 
 white = (255, 255, 255)
@@ -20,8 +20,9 @@ black = (0, 0, 0)
 red = (213, 50, 80)
 green = (0, 255, 0)
 blue = (50, 153, 213)
- 
-width = 300
-height = 300
+
+#(70x70) * 6
+width = 420
+height = 420
  
 dis = pygame.display.set_mode((width, height))
