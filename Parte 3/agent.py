@@ -4,6 +4,7 @@ import numpy as np
 from collections import deque
 from gameEngine import SnakeGameAI, Direction, Point
 from modal import Linear_QNet, QTrainer
+from algorithm import *
 
 MAX_MEMORY = 100_000
 BATCH_SIZE = 1000
@@ -106,7 +107,9 @@ def train():
     record = 0
     agent = Agent()
     game = SnakeGameAI()
+    
     while True:
+        play_game()
         # get old state
         state_old = agent.get_state(game)
 
@@ -131,7 +134,6 @@ def train():
 
             if score > record:
                 record = score
-                agent.model.save()
 
             print('Game', agent.n_games, 'Score', score, 'Record:', record)
 

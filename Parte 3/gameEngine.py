@@ -4,8 +4,8 @@ from enum import Enum
 from collections import namedtuple
 import numpy as np
 
-pygame.init()
-font = pygame.font.SysFont('arial', 25)
+# pygame.init()
+# font = pygame.font.SysFont('arial', 25)
 
 class Direction(Enum):
     RIGHT = 1
@@ -30,11 +30,12 @@ class SnakeGameAI:
     def __init__(self, w=640, h=480):
         self.w = w
         self.h = h
-        # init display
-        self.display = pygame.display.set_mode((self.w, self.h))
-        pygame.display.set_caption('Snake')
-        self.clock = pygame.time.Clock()
-        self.reset()
+        self.snake = [Point(4, 4)]
+        self.direction = Direction.DOWN
+        self.food = Point(4, 7)
+        self.head = Point(0, 0)
+        self.score = 0
+        self.frame_iteration = 0
 
 
     def reset(self):
@@ -62,17 +63,11 @@ class SnakeGameAI:
 
     def play_step(self, action):
         self.frame_iteration += 1
-        # 1. collect user input
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-        
-        # 2. move
+        # move
         self._move(action) # update the head
         self.snake.insert(0, self.head)
         
-        # 3. check if game over
+        # check if game over
         reward = 0
         game_over = False
         if self.is_collision() or self.frame_iteration > 100*len(self.snake):
@@ -80,7 +75,7 @@ class SnakeGameAI:
             reward = -10
             return reward, game_over, self.score
 
-        # 4. place new food or just move
+        # place new food or just move
         if self.head == self.food:
             self.score += 1
             reward = 10
@@ -88,10 +83,8 @@ class SnakeGameAI:
         else:
             self.snake.pop()
         
-        # 5. update ui and clock
         self._update_ui()
-        self.clock.tick(SPEED)
-        # 6. return game over and score
+        # return game over and score
         return reward, game_over, self.score
 
 
@@ -109,17 +102,18 @@ class SnakeGameAI:
 
 
     def _update_ui(self):
-        self.display.fill(BLACK)
+        pass
+        # self.display.fill(BLACK)
 
-        for pt in self.snake:
-            pygame.draw.rect(self.display, BLUE1, pygame.Rect(pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))
-            pygame.draw.rect(self.display, BLUE2, pygame.Rect(pt.x+4, pt.y+4, 12, 12))
+        # for pt in self.snake:
+        #     pygame.draw.rect(self.display, BLUE1, pygame.Rect(pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))
+        #     pygame.draw.rect(self.display, BLUE2, pygame.Rect(pt.x+4, pt.y+4, 12, 12))
 
-        pygame.draw.rect(self.display, RED, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
+        # pygame.draw.rect(self.display, RED, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
 
-        text = font.render("Score: " + str(self.score), True, WHITE)
-        self.display.blit(text, [0, 0])
-        pygame.display.flip()
+        # text = font.render("Score: " + str(self.score), True, WHITE)
+        # self.display.blit(text, [0, 0])
+        # pygame.display.flip()
 
 
     def _move(self, action):
